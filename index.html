@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Pumpentechnik für Industriemechaniker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { background-color: #f3f4f6; transform: translateX(5px); }
+        .correct { background-color: #22c55e !important; color: white; border-color: #16a34a; }
+        .incorrect { background-color: #ef4444 !important; color: white; border-color: #dc2626; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-10 px-4 text-slate-800">
+
+    <div id="quiz-container" class="max-w-2xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+        <!-- Progress Bar -->
+        <div class="bg-gray-200 h-2 w-full">
+            <div id="progress" class="bg-blue-600 h-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+
+        <div class="p-8">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <span id="question-counter" class="text-sm font-bold text-blue-600 uppercase tracking-widest">Frage 1 von 10</span>
+                <span id="score-display" class="text-sm font-bold text-gray-500">Punkte: 0</span>
+            </div>
+
+            <!-- Question Area -->
+            <div id="question-area" class="fade-in">
+                <h2 id="question-text" class="text-xl font-bold mb-6">Lade Frage...</h2>
+                <div id="options-container" class="space-y-3">
+                    <!-- Buttons -->
+                </div>
+            </div>
+
+            <!-- Feedback Area -->
+            <div id="feedback-area" class="mt-8 hidden fade-in border-t pt-6">
+                <div id="feedback-status" class="font-bold text-lg mb-2"></div>
+                <p id="explanation-text" class="text-gray-600 italic mb-6"></p>
+                <button id="next-btn" class="w-full bg-blue-800 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
+                    Nächste Frage
+                </button>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden text-center fade-in">
+                <h2 class="text-3xl font-bold mb-4 text-blue-800">Quiz beendet!</h2>
+                <div class="text-6xl font-black mb-4" id="final-score">0 / 10</div>
+                <p id="result-comment" class="text-gray-600 mb-8"></p>
+                <button onclick="location.reload()" class="bg-blue-800 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700">
+                    Quiz neu starten
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                q: "Welche grundsätzliche Eigenschaft haben alle Pumpenarten gemeinsam?",
+                o: [
+                    "Sie fördern Flüssigkeit von der Saugseite zur Druckseite",
+                    "Sie sind immer selbstansaugend",
+                    "Sie erzeugen einen pulsierenden Flüssigkeitsstrom",
+                    "Sie benötigen immer ein Druckbegrenzungsventil im Gehäuse",
+                    "Sie fördern nur Gase und Flüssigkeiten gleichermaßen"
+                ],
+                a: 0,
+                e: "Unabhängig von der Bauart besteht die Kernaufgabe jeder Pumpe darin, ein Medium von der Saugseite aufzunehmen und zur Druckseite weiterzuleiten."
+            },
+            {
+                q: "Warum werden Zahnradpumpen fachlich als 'Konstantpumpen' bezeichnet?",
+                o: [
+                    "Weil sie eine konstante Drehzahl benötigen",
+                    "Weil sich ihre Förderkammern nicht verstellen lassen",
+                    "Weil sie nur für konstante Drücke geeignet sind",
+                    "Weil sie keine beweglichen Teile besitzen",
+                    "Weil sie im Dauerbetrieb nicht heiß werden"
+                ],
+                a: 1,
+                e: "Bei Zahnradpumpen ist das Volumen der Zahnzwischenräume fest vorgegeben. Da die Kammern mechanisch nicht verändert werden können, bleibt das Fördervolumen pro Umdrehung konstant."
+            },
+            {
+                q: "Welches Bauteil im Hydraulikaggregat schützt die gesamte Anlage vor Zerstörung durch Überlastung?",
+                o: [
+                    "Das Rückschlagventil (H0.2)",
+                    "Der Elektromotor (H0.4)",
+                    "Der Filter (H0.7)",
+                    "Das Druckbegrenzungsventil (H0.3)",
+                    "Das 3/2-Wegeventil (H0.9)"
+                ],
+                a: 3,
+                e: "Das Druckbegrenzungsventil öffnet sich automatisch, wenn der Systemdruck einen kritischen Wert überschreitet, und leitet die Flüssigkeit zurück in den Behälter."
+            },
+            {
+                q: "Welche Laufradform einer Kreiselpumpe eignet sich am besten für große Volumenströme bei geringer Förderhöhe?",
+                o: [
+                    "Radialrad",
+                    "Halbaxialrad",
+                    "Schaufelrad mit geschlossenen Kanälen",
+                    "Axialrad",
+                    "Zahnrad mit Außenverzahnung"
+                ],
+                a: 3,
+                e: "Axialräder fördern die Flüssigkeit in Achsrichtung. Sie besitzen die höchste Umdrehungsfrequenz und sind auf maximale Fördermengen bei wenig Widerstand spezialisiert."
+            },
+            {
+                q: "Wie erfolgt bei einer Schrägscheiben- oder Schrägachsenpumpe die Trennung von Saug- und Druckseite?",
+                o: [
+                    "Durch ein mechanisches Rückschlagventil",
+                    "Über eine Schlitzsteuerung in der stillstehenden Steuerplatte",
+                    "Durch die Fliehkraft des rotierenden Mediums",
+                    "Durch manuelles Umschalten eines Wegeventils",
+                    "Durch die Elastizität der Kolbendichtungen"
+                ],
+                a: 1,
+                e: "Während die Zylindertrommel rotiert, gleiten die Öffnungen der Zylinder über Schlitze in der feststehenden Steuerplatte, die genau festlegen, wann angesaugt und wann ausgestoßen wird."
+            },
+            {
+                q: "Was ist ein entscheidender technischer Nachteil der Kreiselpumpe gegenüber vielen Verdrängerpumpen?",
+                o: [
+                    "Sie benötigt zu viel Anlaufstrom",
+                    "Sie darf nicht gegen geschlossene Schieber anlaufen",
+                    "Sie ist in der Regel nicht selbstansaugend",
+                    "Sie kann nur im Uhrzeigersinn drehen",
+                    "Sie ist zu laut beim Ansaugvorgang"
+                ],
+                a: 2,
+                e: "Kreiselpumpen können im luftgefüllten Zustand oft keinen Unterdruck aufbauen, der stark genug ist, um Flüssigkeit anzusaugen. Sie müssen daher vor dem Start meist befüllt sein."
+            },
+            {
+                q: "Welche Aufgabe übernimmt das Rückschlagventil (H0.2) in einem Hydraulikaggregat?",
+                o: [
+                    "Es reguliert den Systemdruck",
+                    "Es verhindert ein Leerlaufen der Pumpe",
+                    "Es filtert feine Metallspäne aus dem Öl",
+                    "Es schaltet das Manometer zu",
+                    "Es kühlt das Hydrauliköl"
+                ],
+                a: 1,
+                e: "Das Rückschlagventil sorgt dafür, dass die Flüssigkeitssäule in der Leitung stehen bleibt. So wird verhindert, dass die Pumpe leerläuft und beim nächsten Start Luft ansaugt."
+            },
+            {
+                q: "Was ändert sich bei einer Axialkolbenpumpe, wenn der Anstellwinkel der Schrägscheibe verstellt wird?",
+                o: [
+                    "Die Drehzahl des Motors",
+                    "Das Fördervolumen pro Umdrehung",
+                    "Die Drehrichtung der Trommel",
+                    "Die Viskosität des Mediums",
+                    "Die Filterleistung des Systems"
+                ],
+                a: 1,
+                e: "Durch die Änderung des Winkels wird der Hubweg der Kolben verändert. Mehr Hub bedeutet ein größeres Kammervolumen und somit mehr Fördermenge pro Umdrehung."
+            },
+            {
+                q: "Für welches Medium sind Radialräder in Kreiselpumpen vorrangig ausgelegt?",
+                o: [
+                    "Stark verschmutztes Abwasser",
+                    "Extrem zähflüssige Öle",
+                    "Reine Flüssigkeiten",
+                    "Gashaltige Gemische",
+                    "Kühlmittel mit hohen Metallanteilen"
+                ],
+                a: 2,
+                e: "Radialräder nutzen die Zentrifugalkraft sehr effizient für den Druckaufbau, sind jedoch aufgrund ihrer engen Kanäle empfindlich gegenüber Feststoffen und Verschmutzungen."
+            },
+            {
+                q: "Welche Funktion erfüllt der Ölbehälter (H0.1) neben der reinen Lagerung der Flüssigkeit?",
+                o: [
+                    "Er erzeugt den notwendigen Vordruck",
+                    "Er dient der Kühlung der Hydraulikflüssigkeit",
+                    "Er filtert automatisch alle Schwebstoffe",
+                    "Er treibt die Zylindertrommel an",
+                    "Er reguliert den Volumenstrom elektronisch"
+                ],
+                a: 1,
+                e: "Der Behälter ist so dimensioniert, dass die zurückfließende Flüssigkeit zur Ruhe kommen kann und ihre Wärme über die Behälterwände an die Umgebung abgibt."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questionCounterEl = document.getElementById('question-counter');
+        const scoreDisplayEl = document.getElementById('score-display');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const feedbackAreaEl = document.getElementById('feedback-area');
+        const feedbackStatusEl = document.getElementById('feedback-status');
+        const explanationTextEl = document.getElementById('explanation-text');
+        const nextBtnEl = document.getElementById('next-btn');
+        const progressEl = document.getElementById('progress');
+        const resultScreenEl = document.getElementById('result-screen');
+        const questionAreaEl = document.getElementById('question-area');
+
+        function loadQuestion() {
+            const data = quizData[currentQuestion];
+            questionCounterEl.innerText = `Frage ${currentQuestion + 1} von ${quizData.length}`;
+            questionTextEl.innerText = data.q;
+            optionsContainerEl.innerHTML = '';
+            feedbackAreaEl.classList.add('hidden');
+            progressEl.style.width = `${(currentQuestion / quizData.length) * 100}%`;
+
+            data.o.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = option;
+                btn.className = "option-btn w-full p-4 border-2 border-gray-200 rounded-xl text-left font-medium hover:border-blue-400 focus:outline-none";
+                btn.onclick = () => selectOption(index);
+                optionsContainerEl.appendChild(btn);
+            });
+        }
+
+        function selectOption(index) {
+            const data = quizData[currentQuestion];
+            const buttons = optionsContainerEl.querySelectorAll('button');
+            
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (index === data.a) {
+                buttons[index].classList.add('correct');
+                score++;
+                feedbackStatusEl.innerText = "Korrekt!";
+                feedbackStatusEl.className = "font-bold text-lg mb-2 text-green-600";
+            } else {
+                buttons[index].classList.add('incorrect');
+                buttons[data.a].classList.add('correct');
+                feedbackStatusEl.innerText = "Nicht ganz richtig";
+                feedbackStatusEl.className = "font-bold text-lg mb-2 text-red-600";
+            }
+
+            scoreDisplayEl.innerText = `Punkte: ${score}`;
+            explanationTextEl.innerText = data.e;
+            feedbackAreaEl.classList.remove('hidden');
+        }
+
+        nextBtnEl.onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function showResults() {
+            questionAreaEl.classList.add('hidden');
+            feedbackAreaEl.classList.add('hidden');
+            questionCounterEl.classList.add('hidden');
+            progressEl.style.width = "100%";
+            
+            resultScreenEl.classList.remove('hidden');
+            document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
+            
+            let comment = "";
+            if (score === quizData.length) comment = "Exzellent! Du hast ein tiefes Verständnis für Pumpensysteme.";
+            else if (score >= 8) comment = "Sehr gut! Du kennst die technischen Details der verschiedenen Bauarten.";
+            else if (score >= 5) comment = "Ordentlich. Du solltest dir einige Wirkprinzipien aber noch einmal ansehen.";
+            else comment = "Hier gibt es noch Nachholbedarf bei den Grundlagen der Pumpentechnik.";
+            
+            document.getElementById('result-comment').innerText = comment;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
