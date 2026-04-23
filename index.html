@@ -25,7 +25,7 @@
         <div class="p-8">
             <!-- Header -->
             <div class="flex justify-between items-center mb-6">
-                <span id="question-counter" class="text-sm font-bold text-blue-600 uppercase tracking-widest">Frage 1 von 10</span>
+                <span id="question-counter" class="text-sm font-bold text-blue-600 uppercase tracking-widest">Frage 1 von 20</span>
                 <span id="score-display" class="text-sm font-bold text-gray-500">Punkte: 0</span>
             </div>
 
@@ -49,7 +49,7 @@
             <!-- Result Screen -->
             <div id="result-screen" class="hidden text-center fade-in">
                 <h2 class="text-3xl font-bold mb-4 text-blue-800">Quiz beendet!</h2>
-                <div class="text-6xl font-black mb-4" id="final-score">0 / 10</div>
+                <div class="text-6xl font-black mb-4" id="final-score">0 / 20</div>
                 <p id="result-comment" class="text-gray-600 mb-8"></p>
                 <button onclick="location.reload()" class="bg-blue-800 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700">
                     Quiz neu starten
@@ -179,6 +179,126 @@
                 ],
                 a: 1,
                 e: "Der Behälter ist so dimensioniert, dass die zurückfließende Flüssigkeit zur Ruhe kommen kann und ihre Wärme über die Behälterwände an die Umgebung abgibt."
+            },
+            {
+                q: "Welche Pumpe eignet sich am besten zur exakten Dosierung eines hochviskosen Mediums?",
+                o: [
+                    "Kreiselpumpe mit Axialrad",
+                    "Kreiselpumpe mit Radialrad",
+                    "Strömungspumpe im Nassläuferbetrieb",
+                    "Verdrängerpumpe (z. B. Axialkolbenpumpe)",
+                    "Ventilatorpumpe"
+                ],
+                a: 3,
+                e: "Verdrängerpumpen sind für hochviskose Medien ideal, da sie das Medium mechanisch einsperren und wegdrücken, was eine sehr präzise Dosierung ermöglicht."
+            },
+            {
+                q: "Warum eignen sich Verdrängerpumpen besonders gut für Dosieraufgaben?",
+                o: [
+                    "Sie sind selbstansaugend",
+                    "Sie erzeugen immer pulsationsfreien Förderstrom",
+                    "Sie fördern ein nahezu konstantes Volumen unabhängig vom Gegendruck",
+                    "Sie benötigen kein Sicherheitsventil",
+                    "Sie sind günstiger als Kreiselpumpen"
+                ],
+                a: 2,
+                e: "Ein wesentliches Merkmal von Verdrängerpumpen ist, dass das Fördervolumen pro Hub oder Umdrehung weitgehend unabhängig vom Druck im Rohrnetz ist."
+            },
+            {
+                q: "Welche Aufgabe hat die Steuerplatte bei einer Axialkolbenpumpe?",
+                o: [
+                    "Sie regelt die Motordrehzahl",
+                    "Sie kühlt die Kolben",
+                    "Sie verhindert Leckagen",
+                    "Sie trennt Saug- und Druckseite und steuert den Stofffluss",
+                    "Sie begrenzt den Systemdruck"
+                ],
+                a: 3,
+                e: "Die Steuerplatte sorgt durch ihre präzise gefertigten Steuerschlitze dafür, dass die Zylinderräume im richtigen Moment mit dem Saug- bzw. Druckanschluss verbunden werden."
+            },
+            {
+                q: "Wie kann bei einer Axialkolbenpumpe die Fördermenge verändert werden, ohne die Motordrehzahl zu ändern?",
+                o: [
+                    "Durch ein Rückschlagventil",
+                    "Durch einen größeren Motor",
+                    "Durch eine höhere Förderhöhe",
+                    "Durch Verstellen des Hubs / Einstellwinkels (Verstellpumpe)",
+                    "Durch einen Filterwechsel"
+                ],
+                a: 3,
+                e: "Bei Verstellpumpen kann die Geometrie (z. B. die Neigung der Schrägscheibe) verändert werden, wodurch sich der Kolbenhub und damit die Fördermenge ändert."
+            },
+            {
+                q: "Welche Pumpenart ist für große Volumenströme bei geringer Förderhöhe am wirtschaftlichsten?",
+                o: [
+                    "Kolbenpumpe",
+                    "Zahnradpumpe",
+                    "Schraubenpumpe",
+                    "Kreiselpumpe",
+                    "Membranpumpe"
+                ],
+                a: 3,
+                e: "Kreiselpumpen (Strömungspumpen) sind im industriellen Einsatz ungeschlagen, wenn es darum geht, große Mengen Flüssigkeit effizient umzuwälzen."
+            },
+            {
+                q: "Warum ist ein Radialrad bei verschmutztem Kühlwasser nachteilig?",
+                o: [
+                    "Es erzeugt zu wenig Druck",
+                    "Es ist empfindlich gegenüber Schmutz und kann schneller verschleißen",
+                    "Es ist nicht für Dauerbetrieb geeignet",
+                    "Es benötigt hohe Drehzahlen",
+                    "Es ist zu laut"
+                ],
+                a: 1,
+                e: "Schmutzpartikel können die engen Kanäle von Radialrädern beschädigen oder verstopfen, was zu vorzeitigem Verschleiß und Ausfällen führt."
+            },
+            {
+                q: "Welches Problem tritt bei einer Kreiselpumpe auf, wenn sie oberhalb des Wasserspiegels montiert ist?",
+                o: [
+                    "Zu hoher Förderdruck",
+                    "Fördermenge steigt unkontrolliert",
+                    "Öl gelangt in den Motor",
+                    "Sie ist nicht selbstansaugend und kann nicht starten",
+                    "Der Motor läuft rückwärts"
+                ],
+                a: 3,
+                e: "Ohne zusätzliche Maßnahmen (wie ein Rückschlagventil oder Vorbefüllung) kann eine klassische Kreiselpumpe die Luft in der Saugleitung nicht evakuieren."
+            },
+            {
+                q: "Welche Maßnahme verhindert Schäden durch Trockenlauf bei Kreiselpumpen?",
+                o: [
+                    "Erhöhung der Motordrehzahl",
+                    "Einsatz einer Verdrängerpumpe",
+                    "Entfernen des Rückschlagventils",
+                    "Pumpe vor Inbetriebnahme füllen / entlüften",
+                    "Verwendung eines axialen Laufrads"
+                ],
+                a: 3,
+                e: "Trockenlauf kann Wellendichtungen und Lager zerstören. Das vollständige Befüllen und Entlüften stellt sicher, dass die Pumpe sofort Flüssigkeit fördert und geschmiert wird."
+            },
+            {
+                q: "Warum sind Filter in Kühlwassersystemen sinnvoll?",
+                o: [
+                    "Sie erhöhen die Förderhöhe",
+                    "Sie machen die Pumpe selbstansaugend",
+                    "Sie ersetzen das Druckbegrenzungsventil",
+                    "Sie schützen Pumpe und Anlage vor Schmutz und Verschleiß",
+                    "Sie verringern die Motordrehzahl"
+                ],
+                a: 3,
+                e: "Filter entfernen Fremdkörper aus dem Kreislauf, was besonders wichtig ist, um abrasive Abnutzung an den Laufrädern und Dichtungen zu verhindern."
+            },
+            {
+                q: "Welche Aufgabe erfüllt ein Rückschlagventil in Pumpensystemen?",
+                o: [
+                    "Es misst den Volumenstrom",
+                    "Es erhöht den Druck",
+                    "Es ersetzt die Entlüftung",
+                    "Es verhindert Leerlaufen und Rückfluss des Mediums",
+                    "Es regelt die Fördermenge"
+                ],
+                a: 3,
+                e: "Ein Rückschlagventil lässt die Strömung nur in eine Richtung zu. Es verhindert, dass die Flüssigkeitssäule bei Stillstand abreißt oder die Pumpe rückwärts durchströmt wird."
             }
         ];
 
@@ -256,10 +376,10 @@
             document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
             
             let comment = "";
-            if (score === quizData.length) comment = "Exzellent! Du hast ein tiefes Verständnis für Pumpensysteme.";
-            else if (score >= 8) comment = "Sehr gut! Du kennst die technischen Details der verschiedenen Bauarten.";
-            else if (score >= 5) comment = "Ordentlich. Du solltest dir einige Wirkprinzipien aber noch einmal ansehen.";
-            else comment = "Hier gibt es noch Nachholbedarf bei den Grundlagen der Pumpentechnik.";
+            if (score === quizData.length) comment = "Exzellent! Du bist ein wahrer Profi in der Pumpentechnik.";
+            else if (score >= 16) comment = "Sehr gut! Du hast fast alle technischen Details gemeistert.";
+            else if (score >= 10) comment = "Ordentlich. Die Grundlagen sitzen, aber einige Details solltest du wiederholen.";
+            else comment = "Hier gibt es noch deutlichen Nachholbedarf. Schau dir die Fachbegriffe nochmal an.";
             
             document.getElementById('result-comment').innerText = comment;
         }
